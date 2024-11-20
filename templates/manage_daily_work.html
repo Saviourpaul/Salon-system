@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Work Management Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+        }
+
+        .sidebar {
+            background-color: #fff;
+            width: 200px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding-top: 20px;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar select,
+        .filter-bar input[type="date"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        .view-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-buttons button {
+            padding: 5px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .view-buttons button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .schedule {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .time-slot {
+            background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #42a5f5;
+            position: relative;
+        }
+
+        .time-slot h4 {
+            margin: 0;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .time-slot p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.8em;
+        }
+
+        .time-slot[data-type="hair-coloring"] {
+            background-color: #ffcdd2;
+            border-left-color: #e57373;
+        }
+
+        .time-slot[data-type="blow-dry"] {
+            background-color: #fff9c4;
+            border-left-color: #fdd835;
+        }
+
+        .time-slot[data-type="cut"] {
+            background-color: #c8e6c9;
+            border-left-color: #66bb6a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <ul>
+            <li>Home</li>
+            <li>Payments</li>
+            <li>Bookings</li>
+            <li>Customers</li>
+            <li>Services</li>
+            <li>Hours</li>
+            <li>Analytics</li>
+            <li>Settings</li>
+            <li>Logout</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="filter-bar">
+            <div>
+                <label for="staffFilter">Filter by staff:</label>
+                <select id="staffFilter">
+                    <option value="all">View all staff</option>
+                    <option value="jennifer">Jennifer</option>
+                    <option value="sharyn">Sharyn</option>
+                    <option value="sean">Sean</option>
+                </select>
+                <input type="date" id="dateFilter">
+            </div>
+            <div class="view-buttons">
+                <button class="active" onclick="changeView('day')">Day</button>
+                <button onclick="changeView('week')">Week</button>
+                <button onclick="changeView('month')">Month</button>
+            </div>
+        </div>
+
+        <div class="schedule" id="schedule">
+            <!-- Schedule time slots will be dynamically populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample schedule data
+        const scheduleData = [
+            {
+                staff: "Jennifer",
+                time: "9:00 - 10:00",
+                client: "Aine Mooney",
+                type: "hair-coloring"
+            },
+            {
+                staff: "Sharyn",
+                time: "9:00 - 10:00",
+                client: "Catherine Boyle",
+                type: "blow-dry"
+            },
+            {
+                staff: "Sean",
+                time: "10:00 - 11:00",
+                client: "James Varley",
+                type: "cut"
+            },
+            {
+                staff: "Jennifer",
+                time: "11:00 - 12:00",
+                client: "Mark O'Connell",
+                type: "cut"
+            },
+            {
+                staff: "Sharyn",
+                time: "12:00 - 1:00",
+                client: "Clara McShane",
+                type: "blow-dry"
+            }
+        ];
+
+        // Function to render the schedule based on filters
+        function renderSchedule(staffFilter = 'all') {
+            const scheduleContainer = document.getElementById("schedule");
+            scheduleContainer.innerHTML = ''; // Clear current schedule
+
+            const filteredData = scheduleData.filter(slot => 
+                staffFilter === 'all' || slot.staff.toLowerCase() === staffFilter
+            );
+
+            filteredData.forEach(slot => {
+                const timeSlot = document.createElement('div');
+                timeSlot.classList.add('time-slot');
+                timeSlot.setAttribute('data-type', slot.type);
+
+                timeSlot.innerHTML = `
+                    <h4>${slot.time}</h4>
+                    <p>${slot.client}</p>
+                    <p>${slot.staff}</p>
+                `;
+
+                scheduleContainer.appendChild(timeSlot);
+            });
+        }
+
+        // Function to update the active view button
+        function changeView(view) {
+            const buttons = document.querySelectorAll(".view-buttons button");
+            buttons.forEach(button => {
+                button.classList.remove("active");
+                if (button.textContent.toLowerCase() === view) {
+                    button.classList.add("active");
+                }
+            });
+            alert(`Switched to ${view} view (for demonstration)`);
+        }
+
+        // Event listener for staff filter
+        document.getElementById('staffFilter').addEventListener('change', (event) => {
+            renderSchedule(event.target.value);
+        });
+
+        // Initial render
+        renderSchedule();
+    </script>
+
+</body>
+</html>

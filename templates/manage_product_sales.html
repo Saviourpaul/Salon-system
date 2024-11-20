@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Product Sales Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard {
+            width: 80%;
+            max-width: 1200px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            background-color: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .tab.active, .tab:hover {
+            background-color: #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .action-button {
+            background-color: #ff69b4;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .action-button:hover {
+            background-color: #ff50a0;
+        }
+
+        .action-menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            z-index: 10;
+            display: none;
+        }
+
+        button {
+            margin: 5px;
+            padding: 8px 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <h1>Inventory</h1>
+    <div class="tabs">
+        <button class="tab active">Products</button>
+        <button class="tab">Orders</button>
+        <button class="tab">Brands</button>
+        <button class="tab">Categories</button>
+        <button class="tab">Suppliers</button>
+        <button class="tab">Location</button>
+        <button class="tab">Stock Take</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Brand Name</th>
+                <th>Product Name</th>
+                <th>Unit Size</th>
+                <th>Retail Price</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Original 4 entries -->
+            <tr>
+                <td>L'Oreal</td>
+                <td>Conditioner</td>
+                <td>1000 ml</td>
+                <td>$10.00</td>
+                <td>99</td>
+                <td><button class="action-button" onclick="chooseAction('Conditioner')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Wella</td>
+                <td>Hair Clay</td>
+                <td>1 litre</td>
+                <td>$16.00</td>
+                <td>28</td>
+                <td><button class="action-button" onclick="chooseAction('Hair Clay')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Garnier</td>
+                <td>Hair Color</td>
+                <td>250 Oz</td>
+                <td>$25.00</td>
+                <td>75</td>
+                <td><button class="action-button" onclick="chooseAction('Hair Color')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Schwarzkopf</td>
+                <td>Hair Care</td>
+                <td>500 ml</td>
+                <td>$15.00</td>
+                <td>23</td>
+                <td><button class="action-button" onclick="chooseAction('Hair Care')">Choose Action</button></td>
+            </tr>
+
+            <!-- Additional 16 entries -->
+            <tr>
+                <td>TRESemmé</td>
+                <td>Shampoo</td>
+                <td>750 ml</td>
+                <td>$12.00</td>
+                <td>50</td>
+                <td><button class="action-button" onclick="chooseAction('Shampoo')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Dove</td>
+                <td>Body Wash</td>
+                <td>500 ml</td>
+                <td>$8.00</td>
+                <td>40</td>
+                <td><button class="action-button" onclick="chooseAction('Body Wash')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Neutrogena</td>
+                <td>Face Wash</td>
+                <td>200 ml</td>
+                <td>$9.00</td>
+                <td>65</td>
+                <td><button class="action-button" onclick="chooseAction('Face Wash')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Nivea</td>
+                <td>Moisturizer</td>
+                <td>300 ml</td>
+                <td>$7.00</td>
+                <td>100</td>
+                <td><button class="action-button" onclick="chooseAction('Moisturizer')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Old Spice</td>
+                <td>Deodorant</td>
+                <td>150 ml</td>
+                <td>$5.00</td>
+                <td>85</td>
+                <td><button class="action-button" onclick="chooseAction('Deodorant')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Axe</td>
+                <td>Body Spray</td>
+                <td>250 ml</td>
+                <td>$6.50</td>
+                <td>72</td>
+                <td><button class="action-button" onclick="chooseAction('Body Spray')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Olay</td>
+                <td>Face Cream</td>
+                <td>50 ml</td>
+                <td>$20.00</td>
+                <td>31</td>
+                <td><button class="action-button" onclick="chooseAction('Face Cream')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Gillette</td>
+                <td>Shaving Gel</td>
+                <td>200 ml</td>
+                <td>$4.50</td>
+                <td>54</td>
+                <td><button class="action-button" onclick="chooseAction('Shaving Gel')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Pantene</td>
+                <td>Hair Oil</td>
+                <td>100 ml</td>
+                <td>$7.50</td>
+                <td>46</td>
+                <td><button class="action-button" onclick="chooseAction('Hair Oil')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Head & Shoulders</td>
+                <td>Anti-Dandruff Shampoo</td>
+                <td>600 ml</td>
+                <td>$11.00</td>
+                <td>60</td>
+                <td><button class="action-button" onclick="chooseAction('Anti-Dandruff Shampoo')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Vaseline</td>
+                <td>Lip Balm</td>
+                <td>20 ml</td>
+                <td>$3.00</td>
+                <td>150</td>
+                <td><button class="action-button" onclick="chooseAction('Lip Balm')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Biotique</td>
+                <td>Face Pack</td>
+                <td>120 ml</td>
+                <td>$6.00</td>
+                <td>80</td>
+                <td><button class="action-button" onclick="chooseAction('Face Pack')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>The Body Shop</td>
+                <td>Hand Cream</td>
+                <td>100 ml</td>
+                <td>$12.00</td>
+                <td>44</td>
+                <td><button class="action-button" onclick="chooseAction('Hand Cream')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Clinique</td>
+                <td>Eye Cream</td>
+                <td>15 ml</td>
+                <td>$35.00</td>
+                <td>25</td>
+                <td><button class="action-button" onclick="chooseAction('Eye Cream')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Estée Lauder</td>
+                <td>Serum</td>
+                <td>30 ml</td>
+                <td>$45.00</td>
+                <td>18</td>
+                <td><button class="action-button" onclick="chooseAction('Serum')">Choose Action</button></td>
+            </tr>
+            <tr>
+                <td>Avene</td>
+                <td>Sunscreen</td>
+                <td>50 ml</td>
+                <td>$22.00</td>
+                <td>58</td>
+                <td><button class="action-button" onclick="chooseAction('Sunscreen')">Choose Action</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="action-menu" class="action-menu" style="display: none;">
+    <h3>Product Actions</h3>
+    <p id="product-name"></p>
+    <button onclick="viewDetails()">View Details</button>
+    <button onclick="editProduct()">Edit</button>
+    <button onclick="deleteProduct()">Delete</button>
+    <button onclick="closeMenu()">Close</button>
+</div>
+
+<script>
+    function chooseAction(productName) {
+        document.getElementById('product-name').textContent = `Actions for ${productName}`;
+        document.getElementById('action-menu').style.display = 'block';
+    }
+
+    function closeMenu() {
+        document.getElementById('action-menu').style.display = 'none';
+    }
+
+    function viewDetails() {
+        alert('Viewing product details...');
+    }
+
+    function editProduct() {
+        alert('Editing product...');
+    }
+
+    function deleteProduct
+
+        alert('Deleting product...');
+    
+</script>
+
+</body>
+</html>

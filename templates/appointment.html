@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Dashboard</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header .buttons button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .header .buttons .btn-green {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .header .buttons .btn-blue {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar input, .filter-bar button {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .filter-bar button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .schedule {
+            display: grid;
+            grid-template-columns: 100px repeat(4, 1fr);
+            gap: 5px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule .time, .schedule .column {
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .column-header {
+            font-weight: bold;
+            background-color: #e3e3e3;
+        }
+
+        .appointment {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .appointment-red {
+            background-color: #e57373;
+        }
+
+        .appointment-green {
+            background-color: #81c784;
+        }
+
+        .appointment-blue {
+            background-color: #64b5f6;
+        }
+
+        .appointment-yellow {
+            background-color: #ffd54f;
+        }
+
+        .appointment:hover {
+            opacity: 0.9;
+        }
+
+        /* Time column styling */
+        .time {
+            font-weight: bold;
+            color: #555;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Appointment Dashboard</h1>
+        <div class="buttons">
+            <button class="btn-green">+ New Client</button>
+            <button class="btn-blue">Add Appointment</button>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <button>&lt;</button>
+        <span>Friday, 20</span>
+        <button>&gt;</button>
+        <button>Today</button>
+        <input type="text" placeholder="Search">
+    </div>
+
+    <!-- Schedule Grid -->
+    <div class="schedule">
+        <!-- Column Headers -->
+        <div class="time column-header"></div>
+        <div class="column-header">Kierra</div>
+        <div class="column-header">Rayna</div>
+        <div class="column-header">Aspen</div>
+        <div class="column-header">Emery</div>
+
+        <!-- Time Slots and Appointments -->
+        <div class="time">9:00</div>
+        <div class="appointment appointment-red">10:00-11:00 Mira Philips<br>Manicure</div>
+        <div class="appointment appointment-green">9:00-10:00 Kaylynn Westervelt<br>Manicure</div>
+        <div></div>
+        <div class="appointment appointment-yellow">9:00-10:00 Rayna Geidt<br>Massage</div>
+
+        <div class="time">10:00</div>
+        <div class="appointment appointment-red">10:00-11:00 Mira Philips<br>Manicure</div>
+        <div></div>
+        <div class="appointment appointment-blue">11:00-12:00 Gretchen Rosser<br>Haircut, Manicure</div>
+        <div></div>
+
+        <div class="time">11:00</div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+
+        <div class="time">12:00</div>
+        <div></div>
+        <div class="appointment appointment-green">12:00-13:00 Maria Septimus<br>Haircut</div>
+        <div></div>
+        <div></div>
+
+        <!-- Add more rows as needed -->
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Services Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            max-height: 100vh;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #ff69b4;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .service-list {
+            padding: 15px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            background: #f1f1f1;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            background: none;
+            padding: 8px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .service-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .service-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .service-details input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #ff69b4;
+        }
+
+        .service-price {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .total-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .choose-staff-btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .choose-staff-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Full-screen responsiveness */
+        @media (min-width: 768px) {
+            .dashboard {
+                max-width: 100%;
+                max-height: 100%;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="header">
+        Your Salon
+    </div>
+
+    <div class="service-list">
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Search for services..." onkeyup="filterServices()">
+        </div>
+
+        <div class="service-item">
+            <div class="service-details">
+                <input type="radio" name="service" onclick="updateTotal(30)">
+                <label>Haircut</label> <span>| 20 mins | Shaving</span>
+            </div>
+            <div class="service-price">$30.00</div>
+        </div>
+
+        <div class="service-item">
+            <div class="service-details">
+                <input type="radio" name="service" onclick="updateTotal(90)">
+                <label>Full Head</label> <span>| 30 mins | Color</span>
+            </div>
+            <div class="service-price">$90.00</div>
+        </div>
+
+        <div class="service-item">
+            <div class="service-details">
+                <input type="radio" name="service" onclick="updateTotal(89)">
+                <label>Blow Dry & Head Massage</label> <span>| 60 mins | Blow Dry</span>
+            </div>
+            <div class="service-price">$89.00</div>
+        </div>
+
+        <div class="service-item">
+            <div class="service-details">
+                <input type="radio" name="service" onclick="updateTotal(96)">
+                <label>Head Shave</label> <span>| 90 mins | Shaving</span>
+            </div>
+            <div class="service-price">$96.00</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span class="total-price" id="totalPrice">$0.00</span>
+        <button class="choose-staff-btn">Choose Staff</button>
+    </div>
+</div>
+
+<script>
+    function filterServices() {
+        const searchInput = document.getElementById("search").value.toLowerCase();
+        const services = document.querySelectorAll(".service-item");
+        
+        services.forEach(service => {
+            const serviceName = service.querySelector("label").textContent.toLowerCase();
+            if (serviceName.includes(searchInput)) {
+                service.style.display = "";
+            } else {
+                service.style.display = "none";
+            }
+        });
+    }
+
+    function updateTotal(price) {
+        const totalPriceElement = document.getElementById("totalPrice");
+        totalPriceElement.textContent = `$${price}.00`;
+    }
+</script>
+
+</body>
+</html>

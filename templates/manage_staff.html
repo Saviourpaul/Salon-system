@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            background-color: #2d3a4b;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .navbar select,
+        .navbar input {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .navbar select {
+            background-color: #2d3a4b;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .navbar input {
+            width: 200px;
+            margin-left: 10px;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: #f1f5f9;
+        }
+
+        /* Staff Card */
+        .staff-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .staff-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .staff-info {
+            display: flex;
+            gap: 15px;
+        }
+
+        .staff-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .staff-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .staff-details h2 {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .staff-details p {
+            margin: 5px 0;
+            color: #777;
+        }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            margin: 5px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .stat-item p {
+            color: #777;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-change span {
+            font-size: 0.9em;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
+<body>
+    <div class="navbar">
+        <h1>Dashboard</h1>
+        <div>
+            <select>
+                <option>All locations</option>
+                <option>Location 1</option>
+                <option>Location 2</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Search staff...">
+        </div>
+    </div>
+
+    <div class="dashboard-header">
+        <button>Business overview</button>
+        <button>Staff overview</button>
+        <button>Activity</button>
+    </div>
+
+    <div class="staff-container" id="staffContainer">
+        <!-- Staff cards will be dynamically generated here -->
+    </div>
+
+    <script>
+        // Sample data for 30 staff members
+        const staff = [
+            { name: "George Smitherson", hours: 436, serviceSales: 2092, serviceChange: 1898, productSales: 263, productChange: 172, avgPerAppointment: 71, avgChange: 84, rebooked: 77, rebookedChange: 1, img: "https://via.placeholder.com/50" },
+            { name: "Sophie Granger", hours: 195, serviceSales: 2720, serviceChange: 1800, productSales: 279, productChange: 222, avgPerAppointment: 91, avgChange: 7, rebooked: 90, rebookedChange: 2, img: "https://via.placeholder.com/50" },
+            { name: "Emily Wilson", hours: 254, serviceSales: 3400, serviceChange: 1895, productSales: 322, productChange: 94, avgPerAppointment: 83, avgChange: 28, rebooked: 89, rebookedChange: 0, img: "https://via.placeholder.com/50" },
+            { name: "David Turner", hours: 320, serviceSales: 1800, serviceChange: 1500, productSales: 200, productChange: 50, avgPerAppointment: 68, avgChange: 12, rebooked: 85, rebookedChange: -1, img: "https://via.placeholder.com/50" },
+            { name: "Lily Evans", hours: 140, serviceSales: 2200, serviceChange: 1700, productSales: 100, productChange: -20, avgPerAppointment: 76, avgChange: 8, rebooked: 95, rebookedChange: 2, img: "https://via.placeholder.com/50" },
+            { name: "John Adams", hours: 415, serviceSales: 500, serviceChange: 400, productSales: 150, productChange: 70, avgPerAppointment: 45, avgChange: -10, rebooked: 70, rebookedChange: 1, img: "https://via.placeholder.com/50" },
+            { name: "Martha Stewart", hours: 180, serviceSales: 2500, serviceChange: 2300, productSales: 250, productChange: 100, avgPerAppointment: 65, avgChange: 5, rebooked: 88, rebookedChange: 0, img: "https://via.placeholder.com/50" },
+            { name: "Ethan Hunt", hours: 295, serviceSales: 3600, serviceChange: 3400, productSales: 300, productChange: 110, avgPerAppointment: 92, avgChange: 20, rebooked: 80, rebookedChange: 3, img: "https://via.placeholder.com/50" },
+            { name: "Olivia Martinez", hours: 220, serviceSales: 1900, serviceChange: 1700, productSales: 210, productChange: -30, avgPerAppointment: 73, avgChange: -5, rebooked: 82, rebookedChange: -2, img: "https://via.placeholder.com/50" },
+            { name: "Harry Potter", hours: 260, serviceSales: 3100, serviceChange: 3000, productSales: 320, productChange: 80, avgPerAppointment: 85, avgChange: 15, rebooked: 90, rebookedChange: 1, img: "https://via.placeholder.com/50" },
+            { name: "Emma Thompson", hours: 185, serviceSales: 2700, serviceChange: 2500, productSales: 275, productChange: 95, avgPerAppointment: 78, avgChange: -3, rebooked: 87, rebookedChange: 0, img: "https://via.placeholder.com/50" },
+            { name: "William Chase", hours: 300, serviceSales: 1500, serviceChange: 1400, productSales: 100, productChange: -10, avgPerAppointment: 62, avgChange: 5, rebooked: 75, rebookedChange: -1, img: "https://via.placeholder.com/50" },
+            { name: "Sophia Clark", hours: 210, serviceSales: 2800, serviceChange: 2600, productSales: 260, productChange: 40, avgPerAppointment: 70, avgChange: 6, rebooked: 90, rebookedChange: 2, img: "https://via.placeholder.com/50" },
+            { name: "James Bond", hours: 280, serviceSales: 4200, serviceChange: 4100, productSales: 350, productChange: 50, avgPerAppointment: 98, avgChange: 22, rebooked: 88, rebookedChange: 1, img: "https://via.placeholder.com/50" },
+            { name: "Anna Garcia", hours: 160, serviceSales: 2300, serviceChange: 2200, productSales: 240, productChange: -5, avgPerAppointment: 72, avgChange: 8, rebooked: 86, rebookedChange: -1, img: "https://via.placeholder.com/50" },
+            { name: "Liam Johnson", hours: 225, serviceSales: 2100, serviceChange: 2000, productSales: 220, productChange: 10, avgPerAppointment: 67, avgChange: -2, rebooked: 80, rebookedChange: 3, img: "https://via.placeholder.com/50" },
+            { name: "Isabella Young", hours: 230, serviceSales: 2900, serviceChange: 2800, productSales: 290, productChange: 60, avgPerAppointment: 82, avgChange: 10, rebooked: 84, rebookedChange: 0, img: "https://via.placeholder.com/50" },
+            { name: "Mason Rivera", hours: 180, serviceSales: 3200, serviceChange: 3100, productSales: 310, productChange: -10, avgPerAppointment: 79, avgChange: -4, rebooked: 85, rebookedChange: 2, img: "https://via.placeholder.com/50" },
+            { name: "Charlotte Kim", hours: 240, serviceSales: 3600, serviceChange: 3400, productSales: 320, productChange: 25, avgPerAppointment: 90, avgChange: 5, rebooked: 92, rebookedChange: -1, img: "https://via.placeholder.com/50" },
+            { name: "Benjamin Lewis", hours: 200, serviceSales: 2500, serviceChange: 2300, productSales: 180, productChange: -20, avgPerAppointment: 75, avgChange: 8, rebooked: 80, rebookedChange: 0, img: "https://via.placeholder.com/50" },
+            { name: "Evelyn Hall", hours: 250, serviceSales: 3400, serviceChange: 3000, productSales: 300, productChange: 50, avgPerAppointment: 84, avgChange: 6, rebooked: 90, rebookedChange: 1, img: "https://via.placeholder.com/50" },
+            { name: "Michael Walker", hours: 300, serviceSales: 2600, serviceChange: 2500, productSales: 250, productChange: 20, avgPerAppointment: 79, avgChange: 4, rebooked: 77, rebookedChange: 3, img: "https://via.placeholder.com/50" },
+            { name: "Amelia Harris", hours: 270, serviceSales: 3900, serviceChange: 3700, productSales: 370, productChange: 90, avgPerAppointment: 94, avgChange: 12, rebooked: 89, rebookedChange: -2, img: "https://via.placeholder.com/50" },
+            { name: "Daniel King", hours: 260, serviceSales: 3300, serviceChange: 3100, productSales: 320, productChange: -5, avgPerAppointment: 87, avgChange: 7, rebooked: 92, rebookedChange: 1, img: "https://via.placeholder.com/50" },
+            { name: "Ava Brown", hours: 215, serviceSales: 2100, serviceChange: 2000, productSales: 200, productChange: 15, avgPerAppointment: 68, avgChange: 10, rebooked: 82, rebookedChange: -1, img: "https://via.placeholder.com/50" },
+            { name: "Lucas Lee", hours: 235, serviceSales: 2500, serviceChange: 2400, productSales: 275, productChange: 20, avgPerAppointment: 70, avgChange: -5, rebooked: 81, rebookedChange: 2, img: "https://via.placeholder.com/50" }
+        ];
+
+        // Function to create and populate staff cards
+        function populateStaffCards(staffList) {
+            const staffContainer = document.getElementById('staffContainer');
+            staffContainer.innerHTML = ''; // Clear existing staff cards
+
+            staffList.forEach(member => {
+                const staffCard = document.createElement('div');
+                staffCard.classList.add('staff-card');
+                
+                staffCard.innerHTML = `
+                    <div class="staff-info">
+                        <img src="${member.img}" alt="${member.name}" class="staff-image">
+                        <div class="staff-details">
+                            <h2>${member.name}</h2>
+                            <p>${member.hours} hours rostered</p>
+                            <a href="#">View personal dashboard</a>
+                        </div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <h3>$${member.serviceSales}</h3>
+                            <div class="stat-change ${member.serviceChange >= 0 ? 'green' : 'red'}">
+                                <span>$${member.serviceChange}</span>
+                            </div>
+                            <p>Service Sales</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>$${member.productSales}</h3>
+                            <div class="stat-change ${member.productChange >= 0 ? 'green' : 'red'}">
+                                <span>$${member.productChange}</span>
+                            </div>
+                            <p>Product Sales</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>$${member.avgPerAppointment}</h3>
+                            <div class="stat-change ${member.avgChange >= 0 ? 'red' : 'green'}">
+                                <span>$${member.avgChange}</span>
+                            </div>
+                            <p>Average per Appointment</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>${member.rebooked}%</h3>
+                            <div class="stat-change ${member.rebookedChange >= 0 ? 'green' : 'red'}">
+                                <span>${member.rebookedChange}%</span>
+                            </div>
+                            <p>Rebooked</p>
+                        </div>
+                    </div>
+                `;
+                
+                staffContainer.appendChild(staffCard);
+            });
+        }
+
+        // Function to filter staff based on search input
+        function searchStaff() {
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            const filteredStaff = staff.filter(member => 
+                member.name.toLowerCase().includes(searchValue)
+            );
+            populateStaffCards(filteredStaff);
+        }
+
+        // Event listener for search input
+        document.getElementById('searchInput').addEventListener('input', searchStaff);
+
+        // Populate initial staff cards
+        populateStaffCards(staff);
+    </script>
+</body>
+</html>

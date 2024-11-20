@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Dashboard Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Search and Filter */
+        .search-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-filter input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        /* Customer Table */
+        .customer-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .customer-table th, .customer-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .customer-table th {
+            background-color: #f1f5f9;
+            font-weight: bold;
+        }
+
+        .customer-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Checkbox */
+        .checkbox {
+            cursor: pointer;
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions button {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>All Customers</h1>
+    <button>View Saved Lists</button>
+</div>
+
+<div class="search-filter">
+    <button>+ Filter</button>
+    <input type="text" id="searchInput" placeholder="Search...">
+    <span id="rowCount">Displaying 10 rows</span>
+</div>
+
+<table class="customer-table">
+    <thead>
+        <tr>
+            <th><input type="checkbox" onclick="selectAll(this)"></th>
+            <th>Customer Name</th>
+            <th>Company Name</th>
+            <th>Customer #</th>
+            <th>Username</th>
+            <th>Email Address</th>
+            <th>Phone #</th>
+        </tr>
+    </thead>
+    <tbody id="customerTableBody">
+        <!-- Rows will be dynamically populated -->
+    </tbody>
+</table>
+
+<div class="actions">
+    <button onclick="download()">Download</button>
+    <button onclick="upload()">Upload</button>
+    <button onclick="refresh()">Refresh</button>
+    <button onclick="settings()">Settings</button>
+</div>
+
+<script>
+    // Sample customer data with 20 entries
+    const customers = [
+        { name: "Jackson, Rachel", company: "ABC Corp", number: "C7125806", username: "racheljackson", email: "rachel@abc.com", phone: "123-456-7890" },
+        { name: "Laney, Lane", company: "XYZ Ltd", number: "C837650", username: "laney", email: "laney@xyz.com", phone: "987-654-3210" },
+        { name: "Reynolds, Suzie", company: "MNO Inc", number: "C7127827", username: "suzie", email: "suzie@mno.com", phone: "555-123-4567" },
+        { name: "Richards, Bill", company: "LMN LLC", number: "C714039", username: "billrichards", email: "bill@lmn.com", phone: "444-987-6543" },
+        { name: "Anderson, Paul", company: "OPQ Ltd", number: "C7129912", username: "paulanderson", email: "paul@opq.com", phone: "222-333-4444" },
+        { name: "White, Sarah", company: "UVW Corp", number: "C8451225", username: "sarahwhite", email: "sarah@uvw.com", phone: "111-222-3333" },
+        { name: "Clark, John", company: "RST Inc", number: "C6654321", username: "johnclark", email: "john@rst.com", phone: "666-777-8888" },
+        { name: "Doe, Jane", company: "ABC Corp", number: "C1122334", username: "janedoe", email: "jane@abc.com", phone: "999-888-7777" },
+        { name: "Taylor, Michael", company: "XYZ Ltd", number: "C9876543", username: "michaeltaylor", email: "michael@xyz.com", phone: "555-666-7777" },
+        { name: "Williams, Patricia", company: "LMN LLC", number: "C1234567", username: "patriciaw", email: "patricia@lmn.com", phone: "888-999-1111" },
+        { name: "Brown, Angela", company: "PQR Ltd", number: "C4455667", username: "angelabrown", email: "angela@pqr.com", phone: "777-555-3333" },
+        { name: "Martin, George", company: "DEF Corp", number: "C3344556", username: "georgem", email: "george@def.com", phone: "333-444-5555" },
+        { name: "Miller, Karen", company: "UVW Corp", number: "C7766554", username: "karenmiller", email: "karen@uvw.com", phone: "222-111-3333" },
+        { name: "Thomas, Brian", company: "STU Inc", number: "C3345667", username: "brianthomas", email: "brian@stu.com", phone: "111-333-5555" },
+        { name: "Scott, Emily", company: "XYZ Ltd", number: "C8899001", username: "emilyscott", email: "emily@xyz.com", phone: "555-333-2222" },
+        { name: "Robinson, Kevin", company: "MNO Inc", number: "C1122783", username: "kevinrobinson", email: "kevin@mno.com", phone: "999-666-5555" },
+        { name: "Carter, Lily", company: "LMN LLC", number: "C2211224", username: "lilycarter", email: "lily@lmn.com", phone: "888-777-4444" },
+        { name: "Harris, Nancy", company: "UVW Corp", number: "C4422333", username: "nancyh", email: "nancy@uvw.com", phone: "555-666-8888" },
+        { name: "Turner, Jack", company: "ABC Corp", number: "C7788990", username: "jackturner", email: "jack@abc.com", phone: "333-555-7777" },
+        { name: "Mitchell, Laura", company: "PQR Ltd", number: "C9988776", username: "lauramitchell", email: "laura@pqr.com", phone: "111-222-4444" }
+    ];
+
+    // Function to populate customer data into the table
+    function populateTable(customersList) {
+        const tableBody = document.getElementById('customerTableBody');
+        tableBody.innerHTML = ''; // Clear existing rows
+
+        customersList.forEach(customer => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="checkbox" class="checkbox"></td>
+                <td>${customer.name}</td>
+                <td>${customer.company}</td>
+                <td>${customer.number}</td>
+                <td>${customer.username}</td>
+                <td>${customer.email}</td>
+                <td>${customer.phone}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+        
+        // Update row count
+        document.getElementById('rowCount').innerText = `Displaying ${customersList.length} rows`;
+    }
+
+    // Filter customers based on search input
+    function searchCustomer() {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase();
+        const filteredCustomers = customers.filter(customer =>
+            customer.name.toLowerCase().includes(searchValue) ||
+            customer.company.toLowerCase().includes(searchValue) ||
+            customer.number.toLowerCase().includes(searchValue) ||
+            customer.username.toLowerCase().includes(searchValue) ||
+            customer.email.toLowerCase().includes(searchValue) ||
+            customer.phone.toLowerCase().includes(searchValue)
+        );
+        populateTable(filteredCustomers);
+    }
+
+    // Select or deselect all checkboxes
+    function selectAll(source) {
+        const checkboxes = document.querySelectorAll('.checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = source.checked;
+        });
+    }
+
+    // Placeholder functions for action buttons
+    function download() {
+        alert("Download functionality coming soon!");
+    }
+
+    function upload() {
+        alert("Upload functionality coming soon!");
+    }
+
+    function refresh() {
+        populateTable(customers);
+    }
+
+    function settings() {
+        alert("Settings functionality coming soon!");
+    }
+
+    // Event listener for search input
+    document.getElementById('searchInput').addEventListener('input', searchCustomer);
+
+    // Initial table population
+    populateTable(customers);
+</script>
+
+</body>
+</html>

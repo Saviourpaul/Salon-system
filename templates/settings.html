@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Settings Dashboard</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group select,
+        .form-group input[type="checkbox"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            color: #333;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .button {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .sidebar .button:hover {
+            background-color: #0056b3;
+        }
+
+        .featured-image {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .featured-image img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .service-category {
+            margin-top: 20px;
+        }
+
+        .service-category h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Main Content Section -->
+    <div class="card">
+        <h2 class="header">Beard Trim</h2>
+
+        <div class="section">
+            <h3>Service Details</h3>
+            <div class="form-group">
+                <label for="price">Price (€)</label>
+                <input type="text" id="price" placeholder="18">
+            </div>
+            <div class="form-group">
+                <label for="units">Units per Session</label>
+                <select id="units">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration</label>
+                <input type="text" id="duration" placeholder="00:30">
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Options</h3>
+            <div class="checkbox-group">
+                <input type="checkbox" id="secondary">
+                <label for="secondary">Secondary</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="exclusive">
+                <label for="exclusive">Exclusive Service</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="hide">
+                <label for="hide">Hide on Front-end</label>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Execution Order</h3>
+            <div class="form-group">
+                <select id="execution-order">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="checkbox-group">
+                <input type="checkbox" id="assistant-required">
+                <label for="assistant-required">No assistant required</label>
+            </div>
+            <div class="form-group">
+                <label for="service-break">Service Break</label>
+                <input type="text" id="service-break" placeholder="00:00">
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Section -->
+    <div class="sidebar">
+        <div class="card">
+            <h3>Publish</h3>
+            <a href="#" class="button">Preview Changes</a>
+            <div class="form-group">
+                <label>Status:</label>
+                <p>Published <a href="#">Edit</a></p>
+            </div>
+            <div class="form-group">
+                <label>Visibility:</label>
+                <p>Public <a href="#">Edit</a></p>
+            </div>
+            <div class="form-group">
+                <label>Published on:</label>
+                <p>May 4, 2016 @ 16:23 <a href="#">Edit</a></p>
+            </div>
+            <a href="#" class="button" style="background-color: #ff4d4d;">Move to Trash</a>
+        </div>
+
+        <div class="card featured-image">
+            <h3>Featured Image</h3>
+            <img src="https://via.placeholder.com/150" alt="Beard Trim">
+            <a href="#">Click the image to edit or update</a>
+        </div>
+
+        <div class="card service-category">
+            <h3>Service Category</h3>
+            <div class="radio-group">
+                <input type="radio" id="styling" name="category" value="styling">
+                <label for="styling">Styling</label>
+                <input type="radio" id="colour" name="category" value="colour">
+                <label for="colour">Colour</label>
+                <input type="radio" id="beauty" name="category" value="beauty">
+                <label for="beauty">Beauty</label>
+                <input type="radio" id="men" name="category" value="men" checked>
+                <label for="men">Men</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
